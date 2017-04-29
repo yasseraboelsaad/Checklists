@@ -10,6 +10,7 @@ import UIKit
 
 class AddCategoryTableViewController: UITableViewController, AddIconTableViewControllerDelegate {
 
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var textField: UITextField!
     
     var delegate: AddCategoryTableViewControllerDelegate!
@@ -27,7 +28,7 @@ class AddCategoryTableViewController: UITableViewController, AddIconTableViewCon
     }
     
     required init?(coder aDecoder: NSCoder) {
-        itemToEdit = CategoryListItem()
+//        itemToEdit = CategoryListItem()
         super.init(coder: aDecoder)
     }
 
@@ -40,10 +41,16 @@ class AddCategoryTableViewController: UITableViewController, AddIconTableViewCon
     // MARK: - Table view data source
 
     @IBAction func doneButton(_ sender: Any) {
-        let item = CategoryListItem()
-        item.text = textField.text ?? "I am a new Row"
-        item.image = itemToEdit.image ?? #imageLiteral(resourceName: "No Icon")
-        delegate.addCategoryViewController(self, didFinishAdding: item)
+        if let item = itemToEdit {
+            item.text = textField.text ?? ""
+            item.image = iconImageView.image ?? itemToEdit.image ?? #imageLiteral(resourceName: "No Icon")
+            delegate.editCategoryViewController(self, didFinishEditing: item)
+        }else{
+            let item = CategoryListItem()
+            item.text = textField.text ?? "I am a new Row"
+            item.image = iconImageView.image ?? #imageLiteral(resourceName: "No Icon")
+            delegate.addCategoryViewController(self, didFinishAdding: item)
+        }
 
     }
 
@@ -52,20 +59,12 @@ class AddCategoryTableViewController: UITableViewController, AddIconTableViewCon
     }
     
     func addIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage){
-        itemToEdit.image = item
+        iconImageView.image = item
     }
-    
-    func editIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage){
-        
-    }
+
     
     override func prepare (for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "AddIconViewController" {
-            if let navigationController = segue.destination as? UITableViewController{
-                let controller = navigationController as! AddIconTableViewController
-                controller.delegate = self
-            }
-        }else if segue.identifier == "EditCategoryViewController" {
             if let navigationController = segue.destination as? UITableViewController{
                 let controller = navigationController as! AddIconTableViewController
                 controller.delegate = self
@@ -79,4 +78,5 @@ class AddCategoryTableViewController: UITableViewController, AddIconTableViewCon
 protocol AddCategoryTableViewControllerDelegate: class {
     func addCategoryViewControllerDidCancel(_ controller: AddCategoryTableViewController)
     func addCategoryViewController(_ controller : AddCategoryTableViewController, didFinishAdding item: CategoryListItem)
+    func editCategoryViewController(_ controller : AddCategoryTableViewController, didFinishEditing item: CategoryListItem)
 }

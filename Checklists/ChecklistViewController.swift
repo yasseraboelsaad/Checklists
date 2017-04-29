@@ -25,25 +25,6 @@ class ChecklistViewController: UITableViewController, AddItemTableViewController
         
         items = [CheckListItem]()
         
-//        let row0item = CheckListItem()
-//        row0item.text = "Walk the dog"
-//        items.append(row0item)
-//        
-//        let row1item = CheckListItem()
-//        row1item.text = "Brush my teeth"
-//        items.append(row1item)
-//        
-//        let row2item = CheckListItem()
-//        row2item.text = "Learn iOS development"
-//        items.append(row2item)
-//        
-//        let row3item = CheckListItem()
-//        row3item.text = "Soccer practice"
-//        items.append(row3item)
-//        
-//        let row4item = CheckListItem()
-//        row4item.text = "Eat ice cream"
-//        items.append(row4item)
         
         super.init(coder: aDecoder)
     }
@@ -63,14 +44,14 @@ class ChecklistViewController: UITableViewController, AddItemTableViewController
         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckListItem", for: indexPath) as! CheckListItemCell
         
         configureCheckText(for: cell, at: indexPath)
-        
+        configureCheckMark(for: cell, at: indexPath)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath){
-            items[indexPath.row].checked = !items[indexPath.row].checked
-
+            items[indexPath.row].toggleChecked()
+            
             configureCheckMark(for: cell as! CheckListItemCell, at: indexPath)
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -128,6 +109,7 @@ class ChecklistViewController: UITableViewController, AddItemTableViewController
         items.remove(at: indexPath.row)
         
         let indexPaths = [indexPath]
+        categoryDelegate.categoryItems[categoryIndex].items.remove(at: indexPath.row)
         tableView.deleteRows(at: indexPaths, with: .automatic)
     }
     

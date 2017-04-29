@@ -11,6 +11,7 @@ import UIKit
 class CategoryListViewController: UITableViewController, ViewChecklistItemTableViewControllerDelegate, AddCategoryTableViewControllerDelegate {
     
     var categoryItems: [CategoryListItem]
+    var lastClickedIndex : Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,48 +25,9 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
     }
     
     required init?(coder aDecoder: NSCoder) {
-//        categoryItems = []
         
         categoryItems = [CategoryListItem]()
-        
-//        var items = [CheckListItem]()
-//        
-//        let item0 = CheckListItem()
-//        item0.text = "Walk the dog"
-//        items.append(item0)
-//        
-//        let item1 = CheckListItem()
-//        item1.text = "Brush my teeth"
-//        items.append(item1)
-//        
-//        let item2 = CheckListItem()
-//        item2.text = "Learn iOS development"
-//        items.append(item2)
-//        
-//        let item3 = CheckListItem()
-//        item3.text = "Soccer practice"
-//        items.append(item3)
-//        
-//        let item4 = CheckListItem()
-//        item4.text = "Eat ice cream"
-//        items.append(item4)
-//        
-//        let row0item = CategoryListItem()
-//        row0item.text = "Errands"
-//        row0item.image = #imageLiteral(resourceName: "Folder")
-//        row0item.items.append(item0)
-//        row0item.items.append(item1)
-//        row0item.items.append(item2)
-//        categoryItems.append(row0item)
-//
-//        
-//        let row1item = CategoryListItem()
-//        row1item.text = "Studying"
-//        row1item.image = #imageLiteral(resourceName: "Folder")
-//        row1item.items.append(item3)
-//        row1item.items.append(item4)
-//        categoryItems.append(row1item)
-        
+
         super.init(coder: aDecoder)
         loadChecklistItems()
 
@@ -92,8 +54,6 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
         }
     }
 
-
-
     func documentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -117,6 +77,7 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print(lastClickedIndex)
         self.tableView.reloadData()
         saveChecklistItems()
     }
@@ -173,6 +134,13 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
         dismiss(animated: true, completion: nil)
     }
 
+    func editCategoryViewController(_ controller : AddCategoryTableViewController, didFinishEditing item: CategoryListItem){
+        let newRowIndex = categoryItems.index(of: item)!
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.reloadRows(at: indexPaths, with: UITableViewRowAnimation.automatic)
+        dismiss(animated: true, completion: nil)
+    }
     
     override func prepare (for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "ChecklistViewController" {
@@ -191,6 +159,16 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
             if let navigationController = segue.destination as? UINavigationController{
                 let controller = navigationController.topViewController! as! AddCategoryTableViewController
                 controller.delegate = self
+            }
+        }
+        else if segue.identifier == "EditCategoryViewController"{
+            if let navigationController = segue.destination as? UINavigationController{
+                let controller = navigationController.topViewController! as! AddCategoryTableViewController
+                controller.delegate = self
+                
+                if let indexPath = tableView.indexPath(for: sender as! UITableViewCell){
+                    controller.itemToEdit = categoryItems[indexPath.row]
+                }
             }
         }
     }

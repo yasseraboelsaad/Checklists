@@ -28,7 +28,7 @@ class AddIconTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath){
+        if let _ = tableView.cellForRow(at: indexPath){
             delegate.addIconViewController(self, didFinishAdding: icons[indexPath.row])
             navigationController?.popViewController(animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
@@ -39,5 +39,4 @@ class AddIconTableViewController: UITableViewController {
 
 protocol AddIconTableViewControllerDelegate: class {
     func addIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage)
-    func editIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage)
 }

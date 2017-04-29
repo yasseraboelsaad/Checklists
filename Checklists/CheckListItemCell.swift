@@ -27,6 +27,7 @@ class CheckListItemCell: UITableViewCell {
     
     override func prepareForReuse() {
         itemTitleLable.text = ""
+        checkLabel.text = ""
     }
 
 }
