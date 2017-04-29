@@ -39,4 +39,5 @@ class AddIconTableViewController: UITableViewController {
 
 protocol AddIconTableViewControllerDelegate: class {
     func addIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage)
+    func editIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage)
 }

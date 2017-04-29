@@ -544,11 +544,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CategoryListItem" id="hgc-Am-all" customClass="CategoryListItemCell" customModule="Checklists" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="CategoryListItem" id="hgc-Am-all" customClass="CategoryListItemCell" customModule="Checklists" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hgc-Am-all" id="8Zj-9S-ED8">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="308" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ejh-dq-dM2">
@@ -559,13 +559,13 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7X-1f-SIb">
-                                            <rect key="frame" x="48" y="8" width="238" height="27.5"/>
+                                            <rect key="frame" x="48" y="8" width="204" height="27.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sij-0l-gKt">
-                                            <rect key="frame" x="294" y="8" width="40" height="27.5"/>
+                                            <rect key="frame" x="260" y="8" width="40" height="27.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="40" id="ccs-1O-pBq"/>
                                             </constraints>
@@ -591,6 +591,7 @@
                                     <outlet property="iconImageView" destination="ejh-dq-dM2" id="5OR-st-FKc"/>
                                     <outlet property="textLabelView" destination="n7X-1f-SIb" id="RBR-yE-lAb"/>
                                     <segue destination="0DW-Kx-ZI7" kind="show" identifier="ChecklistViewController" id="WAZ-V1-YCb"/>
+                                    <segue destination="SvH-76-iIf" kind="presentation" identifier="EditCategoryViewController" trigger="accessoryAction" id="IQK-gZ-Le4"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -680,6 +681,7 @@
         <image name="Trips" width="36" height="36"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="IQK-gZ-Le4"/>
         <segue reference="DGd-7g-8Th"/>
     </inferredMetricsTieBreakers>
 </document>

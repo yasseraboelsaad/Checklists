@@ -47,6 +47,8 @@ class ChecklistViewController: UITableViewController, AddItemTableViewController
         
         super.init(coder: aDecoder)
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -70,7 +72,6 @@ class ChecklistViewController: UITableViewController, AddItemTableViewController
             items[indexPath.row].checked = !items[indexPath.row].checked
 
             configureCheckMark(for: cell as! CheckListItemCell, at: indexPath)
-            
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

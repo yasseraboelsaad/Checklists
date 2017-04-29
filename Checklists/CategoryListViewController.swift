@@ -29,44 +29,78 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
         categoryItems = [CategoryListItem]()
         
         var items = [CheckListItem]()
-        
-        let item0 = CheckListItem()
-        item0.text = "Walk the dog"
-        items.append(item0)
-        
-        let item1 = CheckListItem()
-        item1.text = "Brush my teeth"
-        items.append(item1)
-        
-        let item2 = CheckListItem()
-        item2.text = "Learn iOS development"
-        items.append(item2)
-        
-        let item3 = CheckListItem()
-        item3.text = "Soccer practice"
-        items.append(item3)
-        
-        let item4 = CheckListItem()
-        item4.text = "Eat ice cream"
-        items.append(item4)
-        
-        let row0item = CategoryListItem()
-        row0item.text = "Errands"
-        row0item.image = #imageLiteral(resourceName: "Folder")
-        row0item.items.append(item0)
-        row0item.items.append(item1)
-        row0item.items.append(item2)
-        categoryItems.append(row0item)
-
-        
-        let row1item = CategoryListItem()
-        row1item.text = "Studying"
-        row1item.image = #imageLiteral(resourceName: "Folder")
-        row1item.items.append(item3)
-        row1item.items.append(item4)
-        categoryItems.append(row1item)
+//        
+//        let item0 = CheckListItem()
+//        item0.text = "Walk the dog"
+//        items.append(item0)
+//        
+//        let item1 = CheckListItem()
+//        item1.text = "Brush my teeth"
+//        items.append(item1)
+//        
+//        let item2 = CheckListItem()
+//        item2.text = "Learn iOS development"
+//        items.append(item2)
+//        
+//        let item3 = CheckListItem()
+//        item3.text = "Soccer practice"
+//        items.append(item3)
+//        
+//        let item4 = CheckListItem()
+//        item4.text = "Eat ice cream"
+//        items.append(item4)
+//        
+//        let row0item = CategoryListItem()
+//        row0item.text = "Errands"
+//        row0item.image = #imageLiteral(resourceName: "Folder")
+//        row0item.items.append(item0)
+//        row0item.items.append(item1)
+//        row0item.items.append(item2)
+//        categoryItems.append(row0item)
+//
+//        
+//        let row1item = CategoryListItem()
+//        row1item.text = "Studying"
+//        row1item.image = #imageLiteral(resourceName: "Folder")
+//        row1item.items.append(item3)
+//        row1item.items.append(item4)
+//        categoryItems.append(row1item)
         
         super.init(coder: aDecoder)
+        loadChecklistItems()
+
+    }
+    
+    
+    func saveChecklistItems() {
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWith: data)
+        archiver.encode(categoryItems, forKey: "Categories")
+        archiver.finishEncoding()
+        data.write(to: dataFilePath(), atomically: true)
+    }
+
+    func loadChecklistItems() {
+        //1
+        let path = dataFilePath()
+        // 2
+        if let data = try? Data(contentsOf: path) {
+            // 3
+            let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
+            categoryItems = unarchiver.decodeObject(forKey: "Categories") as! [CategoryListItem]
+            unarchiver.finishDecoding()
+        }
+    }
+
+
+
+    func documentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+
+    func dataFilePath() -> URL {
+        return documentsDirectory().appendingPathComponent("Check_Lists.plist")
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,6 +118,7 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
     
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
+        saveChecklistItems()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,9 +131,9 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         categoryItems.remove(at: indexPath.row)
-        
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
+        saveChecklistItems()
     }
     
     
@@ -118,7 +153,6 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
     }
     
     func viewChecklistItemViewController(_ controller : ChecklistViewController, didFinishAdding item: CategoryListItem){
-        //logic
         dismiss(animated: true, completion: nil)
     }
     
@@ -135,6 +169,7 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPaths = [indexPath]
         tableView.insertRows(at: indexPaths, with: UITableViewRowAnimation.automatic)
+        saveChecklistItems()
         dismiss(animated: true, completion: nil)
     }
 

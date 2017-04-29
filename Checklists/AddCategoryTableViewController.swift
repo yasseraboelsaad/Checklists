@@ -55,8 +55,17 @@ class AddCategoryTableViewController: UITableViewController, AddIconTableViewCon
         itemToEdit.image = item
     }
     
+    func editIconViewController(_ controller : AddIconTableViewController, didFinishAdding item: UIImage){
+        
+    }
+    
     override func prepare (for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "AddIconViewController" {
+            if let navigationController = segue.destination as? UITableViewController{
+                let controller = navigationController as! AddIconTableViewController
+                controller.delegate = self
+            }
+        }else if segue.identifier == "EditCategoryViewController" {
             if let navigationController = segue.destination as? UITableViewController{
                 let controller = navigationController as! AddIconTableViewController
                 controller.delegate = self
