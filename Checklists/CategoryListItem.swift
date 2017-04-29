@@ -23,13 +23,13 @@ class CategoryListItem : NSObject, NSCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(text, forKey: "Text")
-//        aCoder.encode(image, forKey: "Image")
+        aCoder.encode(image, forKey: "Image")
         aCoder.encode(items, forKey: "Items")
     }
     
     required init(coder aDecoder: NSCoder) {
         text = aDecoder.decodeObject(forKey: "Text") as! String
-//        image = aDecoder.decodeObject(forKey: "Image") as! UIImage
+        image = aDecoder.decodeObject(forKey: "Image") as! UIImage?
         items = aDecoder.decodeObject(forKey: "Items") as! [CheckListItem]
         super.init()
     }

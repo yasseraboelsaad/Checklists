@@ -24,11 +24,11 @@ class CategoryListViewController: UITableViewController, ViewChecklistItemTableV
     }
     
     required init?(coder aDecoder: NSCoder) {
-        categoryItems = []
+//        categoryItems = []
         
         categoryItems = [CategoryListItem]()
         
-        var items = [CheckListItem]()
+//        var items = [CheckListItem]()
 //        
 //        let item0 = CheckListItem()
 //        item0.text = "Walk the dog"
