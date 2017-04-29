@@ -20,6 +20,10 @@ class AddCategoryTableViewController: UITableViewController, AddIconTableViewCon
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let _ = itemToEdit {
+            iconImageView.image = itemToEdit.image ?? #imageLiteral(resourceName: "No Icon")
+            textField.text = itemToEdit.text ?? ""
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

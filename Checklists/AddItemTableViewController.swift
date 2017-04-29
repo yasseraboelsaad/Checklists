@@ -20,6 +20,10 @@ class AddItemTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let _ = itemToEdit {
+            textField.text = itemToEdit.text 
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
